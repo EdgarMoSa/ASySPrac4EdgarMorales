@@ -1,0 +1,269 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Pr&aacute;ctica 4: Convoluci&oacute;n y Correlaci&oacute;n de se&ntilde;ales en tiempo continuo</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-11-16"><meta name="DC.source" content="ASysPrac4EdgarMorales.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Pr&aacute;ctica 4: Convoluci&oacute;n y Correlaci&oacute;n de se&ntilde;ales en tiempo continuo</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Portada</a></li><li><a href="#2">Objetivo</a></li><li><a href="#3">Introducci&oacute;n</a></li><li><a href="#4">Problema 1</a></li><li><a href="#8">Problema 2</a></li><li><a href="#11">Problema 3</a></li><li><a href="#13">Problema 4</a></li><li><a href="#16">Problema 5</a></li><li><a href="#18">Referencias</a></li></ul></div><h2 id="1">Portada</h2><p><b>Intituto Polit&eacute;cnico Nacional</b></p><p><b>Unidad Profecional Interdiciplinaria en Ingenier&iacute;a y Tenolog&iacute;as Avanzadas</b></p><p><b>An&aacute;lisis de se&ntilde;ales y sistemas</b></p><p><b>Pr&aacute;ctica 3: Se&ntilde;ales en tiempo discreto.</b> Grupo: <b>2MV1</b></p><p>Profesor: <b>Dr. Rafael Martinez Martinez</b></p><p>Integrantes:</p><p><b>Calva Lima Leonardo Ashley</b></p><p><b>Escarcega Corona Luis</b></p><p><b>Morales Sanabria Edgar Esteban</b></p><h2 id="2">Objetivo</h2><p>Los objetivos son los siguientes:</p><p>1) Conocer m&eacute;todos b&aacute;sicos de integraci&oacute;n num&eacute;rica</p><p>2) Manipulaci&oacute;n de instrucciones en MATLAB</p><p>3) Simular convoluciones y correlaciones de se&ntilde;ales continuas</p><p>4) Simular convoluciones y correlaciones de se&ntilde;ales discretas</p><h2 id="3">Introducci&oacute;n</h2><p>CONVOLUCI&Oacute;N</p><p>Dadas dos funciones sea x(t) y f(t) aquellas funciones sobre las cuales se aplicar&aacute; la operaci&oacute;n de convoluci&oacute;n para generar una nueva funci&oacute;n g(t) las diferentes notaciones ind&iacute;can alguno de los distintos m&eacute;todos para desarrollar la convoluci&oacute;n de dichas funciones.</p><p>Notaci&oacute;n 1</p><pre>         f(t)*x(t)=g(t); Donde g(t) es una nueva funci&oacute;n en el dominio del tiempo.</pre><p>Notaci&oacute;n 2</p><pre>         g(t) = @(t) (f(t)*x(t-T))
+         g(t) = @(t)integral(g(t),T,-inf,inf)</pre><pre>         La convoluci&oacute;n tambi&eacute;n puede ser escrita mediante un producto de las funciones dentro de una integral
+         definida con limites desde menos infinito hasta infinito. En ambas funciones se aplica un cambio de
+         variable sobre el cual se integrar&aacute;; as&iacute; mismo se aplica una inversi&oacute;n horizontalmente a una de las
+         se&ntilde;ales y se aplica un desplazamiento horizontal con la variable original.</pre><p>M&eacute;todos de resolver la convoluci&oacute;n.</p><p>Dicho esto es posible entonces a partir de la integraci&oacute;n obtener dos m&eacute;todos de visualizar la gr&aacute;fica resultante de la convoluci&oacute;n de dos se&ntilde;ales. El primer m&eacute;todo consiste b&aacute;sicamente en resolver la integral evaluado los l&iacute;mites respecto del dominio de la funci&oacute;n donde el cambio de variable no contiene traslaci&oacute;n. Este m&eacute;todo suele ser el m&aacute;s complejo debido al desarrollo de las integrales y los respectivos l&iacute;mites a evaluar.</p><p>El segundo m&eacute;todo es llamado el m&eacute;todo "Gr&aacute;fico" debido a que para este se inicia graficando ambas se&ntilde;ales con algunos cambios sobre las gr&aacute;ficas de las se&ntilde;ales ser&aacute; posible hallar los l&iacute;mites de integraci&oacute;n sin realizar la misma cantidad de integrales que en el m&eacute;todo anal&iacute;tico. El segundo paso es aplicar un cambio de variable f(t)=f(T) a una de las se&ntilde;ales;  donde T es la nueva variable sobre el eje horizontal. A esta funci&oacute;n se le "Fija" sobre el eje horizontal, o en otras palabras solo se grafica tal cual est&aacute; definida sin realizar alg&uacute;n otro cambio.</p><p>A la segunda se&ntilde;al se le aplica el cambio de variable x(t)=x(-T) lo cual se puede interpretar como una inversi&oacute;n horizontal de la se&ntilde;al. Posteriormente para que ambas se&ntilde;ales generen una nueva se&ntilde;al la se&ntilde;al x(t-T) es desplazada al asignarle valores a la variable t entre un intervalo que incluya el dominio de la funci&oacute;n f(T). De esta manera la integral resultate ser&aacute;, dependiendo de la naturaleza de las funciones, una integral que se podr&aacute; dividir en una suma de integrales con distintos l&iacute;mites de integraci&oacute;n. La funci&oacute;n resultante de esta suma resultante de integrales pertence al espacio del tiempo al ser evauada y es llamada g(t).</p><p>CORRELACI&Oacute;N</p><p>Dadas dos funciones sea x(t) y f(t) aquellas funciones sobre las cuales se aplicar&aacute; la operaci&oacute;n de correlaci&oacute;n para generar una nueva funci&oacute;n g(t) las diferentes notaciones ind&iacute;can alguno de los distintos m&eacute;todos para desarrollar la convoluci&oacute;n de dichas funciones.</p><p>Notaci&oacute;n 1</p><pre>         f(t)&deg;x(t)=g(t); Donde g(t) es una nueva funci&oacute;n en el dominio del tiempo.</pre><p>Notaci&oacute;n 2</p><pre>         g(t) = @(t) (f(t)*x(t+T))
+         g(t) = @(t)integral(g(t),T,-inf,inf)</pre><p>Dadas las formas matem&aacute;ticas descritas anteriormente, es posible intuir a simple vista la similitud entre la convoluci&oacute;n y la correlaci&oacute;n en las Notaciones n&uacute;mero 2; dicho lo anterior se infiere que la correlaci&oacute;n se puede llegar a resolver mediante las dos t&eacute;cnicas antes descritas de convoluci&oacute;n. Esto es, operando sobre una de las variables un cambio de variable, pero sin inversi&oacute;n, y un desplazamiento.</p><h2 id="4">Problema 1</h2><p>Para el PR04 reporte la grafica de la simulaci&oacute;n n&uacute;merica de la convoluci&oacute;n y compare con el resultado an&aacute;litico que obtuvo para el problema 1, esto es, su pr&aacute;ctica tendr&aacute; que incluir una llamada a la funci&oacute;nn convconm y posteriormente se tendr&aacute; que mostrar (mediante el Publish) la gr&aacute;fica tanto de las se&ntilde;ales involucradas como el resultado de la convoluci&oacute;n, y en esta &uacute;ltima gr&aacute;ficara su resultado analitico, se tendr&aacute; que incluir el resultado analitico.</p><p>Se tienen las siguientes se&ntilde;ales f(t) y x(t) en la gr&aacute;fica 1; la convoluci&oacute;n anal&iacute;tica y as&iacute; como utilizando un software <i>convconm</i> para una aproximaci&oacute;n num&eacute;rica  en la gr&aacute;fica 2.</p><pre class="codeinput">c = @(t) t.*(t&gt;=-1&amp;t&lt;1);
+v = @(t) exp(-t).*(t&gt;=0&amp;t&lt;1);
+convconm(c,v)
+hold <span class="string">on</span>
+</pre><img vspace="5" hspace="5" src="ASysPrac4EdgarMorales_01.png" alt=""> <p>C&oacute;digo de la funci&oacute;n g(t) generada anal&iacute;ticamente se mira en colores azul, naranja y amarillo contra el gris del c&oacute;digo del software.</p><pre class="codeinput">fplot(@(t) (t+2*exp(-t-1)-1),[-1 0])
+fplot(@(t) ((2-t)*exp(-1)+t-1),[0 1])
+fplot(@(t) ((2-t)*exp(-1)),[1 2])
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="ASysPrac4EdgarMorales_02.png" alt=""> <h2 id="8">Problema 2</h2><p>Para el PR05 reporte la grafica de la simulaci&oacute;n n&uacute;merica de la correalci&oacute;n y compare con el resultado an&aacute;litico que obtuvo para el problema e), esto es, su pr&aacute;ctica tendr&aacute; que incluir una llamada a la funci&oacute;nn convconm y posteriormente se tendr&aacute; que mostrar (mediante el Publish) la gr&aacute;fica tanto de las se&ntilde;ales involucradas como el resultado de su correlaci&oacute;n, y en esta &uacute;ltima graficara su resultado analitico, se tendr&aacute; que incluir el resultado analitico.</p><p>Problema D</p><pre class="codeinput"> x = @(t) 1*(t&gt;=0 &amp; t&lt;2)-1*(t&gt;=2 &amp; t&lt;4);
+ h= @(t) -1*(t&gt;=-4 &amp; t&lt;-2)+1*(t&gt;=-2 &amp; t&lt;0);
+convconm(h,x)
+</pre><img vspace="5" hspace="5" src="ASysPrac4EdgarMorales_03.png" alt=""> <p>Problema E</p><pre class="codeinput"> y = @(t) 0*(t&lt;0)+1*(t&gt;=0 &amp; t&lt;3)-1*(t&gt;=3 &amp; t&lt;4);
+ i= @(t) -1*(t&gt;=-4 &amp; t&lt;-3)+1*(t&gt;=-3 &amp; t&lt;0);
+ convconm(i,y)
+</pre><img vspace="5" hspace="5" src="ASysPrac4EdgarMorales_04.png" alt=""> <h2 id="11">Problema 3</h2><p>Realice la simuaci&oacute;n de la convoluci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1.1</p><p>Para esta simulaci&oacute;n se utilizar&aacute; un software visto en clase.</p><pre class="codeinput"> n= -4:6;
+ m= -3:5;
+ j= [0 -9 -6 -3 0 3 6 9 0 0 0];
+ k= [0 4 2 0 2 4 0 0 0];
+ convdisc([n;j],[m;k])
+</pre><img vspace="5" hspace="5" src="ASysPrac4EdgarMorales_05.png" alt=""> <h2 id="13">Problema 4</h2><p>Realice la simuaci&oacute;n de la correlaci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1.1</p><p>Para esta simulaci&oacute;n se utilizar&aacute; el mismo software solo que se har&aacute; una modificaci&oacute;n para que en el t&iacute;tulo de las gr&aacute;ficas ind&iacute;que que es la "CORRELACI&Oacute;N" y no la "CONVOLUCI&Oacute;N".</p><pre class="codeinput"> n= -4:6;
+ m= -3:5;
+ j= [0 -9 -6 -3 0 3 6 9 0 0 0];
+ k= [0 4 2 0 2 4 0 0 0];
+ corrdisc([n;j],[-m;k])
+</pre><img vspace="5" hspace="5" src="ASysPrac4EdgarMorales_06.png" alt=""> <h2 id="16">Problema 5</h2><p>Realice la la convoluci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1.1 utilizando el comando conv de MATLAB, muestre el c&oacute;digo utilizado y gr&aacute;fique el resultado, sugerencia: Utilice las propiedades de traslaci&oacute;n de la convoluci&oacute;n.</p><pre class="codeinput">   c=[-9 -6 -3 0 3 6 9];
+   d=[4 2 0 2 4];
+   n=conv(c,d);
+   u=[-5 -4 -3 -2 -1 0 1 2 3 4 5];
+   stem(u,n)
+</pre><img vspace="5" hspace="5" src="ASysPrac4EdgarMorales_07.png" alt=""> <h2 id="18">Referencias</h2><p>Dr. Rafael Martinez Martinez. (2016). Se ?nales y Sistemas. 2018, de creativecommons.orgSitio web: <a href="http://rafneta.github.io/">http://rafneta.github.io/</a></p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Práctica 4: Convolución y Correlación de señales en tiempo continuo
+%
+%%   Portada
+% *Intituto Politécnico Nacional*
+%
+% *Unidad Profecional Interdiciplinaria en Ingeniería y Tenologías
+% Avanzadas*
+%                         
+% *Análisis de señales y sistemas*
+%
+% *Práctica 3: Señales en tiempo discreto.*
+% Grupo: *2MV1*
+%
+% Profesor: *Dr. Rafael Martinez Martinez*
+%  
+% Integrantes:
+%
+% *Calva Lima Leonardo Ashley*
+%
+% *Escarcega Corona Luis*
+%
+% *Morales Sanabria Edgar Esteban*
+    %% Objetivo
+    % Los objetivos son los siguientes:
+%
+% 1) Conocer métodos básicos de integración numérica
+%
+% 2) Manipulación de instrucciones en MATLAB
+%
+% 3) Simular convoluciones y correlaciones de señales continuas
+%
+% 4) Simular convoluciones y correlaciones de señales discretas
+%% Introducción
+%
+% CONVOLUCIÓN
+%
+% Dadas dos funciones sea x(t) y f(t) aquellas funciones sobre las cuales
+% se aplicará la operación de convolución para generar una nueva función g(t)
+% las diferentes notaciones indícan alguno de los distintos métodos para
+% desarrollar la convolución de dichas funciones.
+% 
+% Notación 1 
+%
+%           f(t)*x(t)=g(t); Donde g(t) es una nueva función en el dominio del tiempo. 
+%
+% Notación 2
+%
+%           g(t) = @(t) (f(t)*x(t-T))
+%           g(t) = @(t)integral(g(t),T,-inf,inf)
+%
+%           La convolución también puede ser escrita mediante un producto de las funciones dentro de una integral
+%           definida con limites desde menos infinito hasta infinito. En ambas funciones se aplica un cambio de 
+%           variable sobre el cual se integrará; así mismo se aplica una inversión horizontalmente a una de las 
+%           señales y se aplica un desplazamiento horizontal con la variable original.
+% 
+% Métodos de resolver la convolución.
+%
+% Dicho esto es posible entonces a partir de la integración obtener dos métodos de visualizar la gráfica resultante de la
+% convolución de dos señales. 
+% El primer método consiste básicamente en resolver la integral evaluado los límites respecto del dominio de la 
+% función donde el cambio de variable no contiene traslación. Este método suele ser el más complejo debido al desarrollo
+% de las integrales y los respectivos límites a evaluar. 
+%
+% El segundo método es llamado el método "Gráfico" debido a que para este se inicia graficando ambas señales con algunos
+% cambios sobre las gráficas de las señales será posible hallar los límites de integración sin realizar la misma cantidad
+% de integrales que en el método analítico. El segundo paso es aplicar un cambio de variable f(t)=f(T) a una de las 
+% señales;  donde T es la nueva variable sobre el eje horizontal. A esta función se le "Fija" sobre el eje horizontal,
+% o en otras palabras solo se grafica tal cual está definida sin realizar algún otro cambio.
+%           
+% A la segunda señal se le aplica el cambio de variable x(t)=x(-T) lo cual se puede interpretar como una inversión
+% horizontal de la señal. Posteriormente para que ambas señales generen una nueva señal la señal x(t-T) es desplazada al
+% asignarle valores a la variable t entre un intervalo que incluya el dominio de la función f(T). De esta manera la integral 
+% resultate será, dependiendo de la naturaleza de las funciones, una integral que se podrá dividir en una suma de integrales 
+% con distintos límites de integración. La función resultante de esta suma resultante de integrales pertence al espacio del
+% tiempo al ser evauada y es llamada g(t).
+%           
+% CORRELACIÓN
+% 
+% Dadas dos funciones sea x(t) y f(t) aquellas funciones sobre las cuales se aplicará la operación de correlación para generar
+% una nueva función g(t) las diferentes notaciones indícan alguno de los distintos métodos para desarrollar la convolución de
+% dichas funciones.
+%  
+% Notación 1 
+%
+%           f(t)°x(t)=g(t); Donde g(t) es una nueva función en el dominio del tiempo. 
+%
+% Notación 2
+%
+%           g(t) = @(t) (f(t)*x(t+T))
+%           g(t) = @(t)integral(g(t),T,-inf,inf)
+%
+% Dadas las formas matemáticas descritas anteriormente, es posible intuir a simple vista la similitud entre la convolución y la
+% correlación en las Notaciones número 2; dicho lo anterior se infiere que la correlación se puede llegar a resolver mediante 
+% las dos técnicas antes descritas de convolución. Esto es, operando sobre una de las variables un cambio de variable, pero sin
+% inversión, y un desplazamiento.
+% 
+    %% Problema 1
+% Para el PR04 reporte la grafica de la simulación númerica de la convolución y compare con el resultado análitico que obtuvo para el problema 1, esto es, su práctica tendrá que incluir una llamada a la funciónn convconm y posteriormente se tendrá que mostrar (mediante el Publish) la gráfica tanto de las señales involucradas como el resultado de la convolución, y en esta última gráficara su resultado analitico, se tendrá que incluir el resultado analitico.
+% 
+% Se tienen las siguientes señales f(t) y x(t) en la gráfica 1; la
+% convolución analítica y así como utilizando un software _convconm_ para una
+% aproximación numérica  en la gráfica 2.
+%
+%%
+c = @(t) t.*(t>=-1&t<1);
+v = @(t) exp(-t).*(t>=0&t<1);
+convconm(c,v)
+hold on
+%%
+% Código de la función g(t) generada analíticamente se mira en colores azul, naranja y amarillo contra el gris del código del software.
+fplot(@(t) (t+2*exp(-t-1)-1),[-1 0])
+fplot(@(t) ((2-t)*exp(-1)+t-1),[0 1])
+fplot(@(t) ((2-t)*exp(-1)),[1 2])
+hold off    
+ %%
+    %% Problema 2
+% Para el PR05 reporte la grafica de la simulación númerica de la correalción y compare con el resultado análitico que obtuvo para el problema e), esto es, su práctica tendrá que incluir una llamada a la funciónn convconm y posteriormente se tendrá que mostrar (mediante el Publish) la gráfica tanto de las señales involucradas como el resultado de su correlación, y en esta última graficara su resultado analitico, se tendrá que incluir el resultado analitico.
+%
+% Problema D
+%
+ x = @(t) 1*(t>=0 & t<2)-1*(t>=2 & t<4);
+ h= @(t) -1*(t>=-4 & t<-2)+1*(t>=-2 & t<0);
+convconm(h,x)
+%%
+% Problema E
+%
+ y = @(t) 0*(t<0)+1*(t>=0 & t<3)-1*(t>=3 & t<4);
+ i= @(t) -1*(t>=-4 & t<-3)+1*(t>=-3 & t<0);
+ convconm(i,y)
+ %%
+%% Problema 3 
+% Realice la simuación de la convolución de las señales (c) con (d) del problema 3.1.1
+%      
+% Para esta simulación se utilizará un software visto en clase. 
+%%
+ n= -4:6;
+ m= -3:5;
+ j= [0 -9 -6 -3 0 3 6 9 0 0 0];
+ k= [0 4 2 0 2 4 0 0 0];
+ convdisc([n;j],[m;k])
+    %% Problema 4
+% Realice la simuación de la correlación de las señales (c) con (d) del problema 3.1.1
+%
+% Para esta simulación se utilizará el mismo software solo que se hará una modificación para que en el título de las gráficas indíque que es la "CORRELACIÓN" y no la "CONVOLUCIÓN". 
+%%
+ n= -4:6;
+ m= -3:5;
+ j= [0 -9 -6 -3 0 3 6 9 0 0 0];
+ k= [0 4 2 0 2 4 0 0 0];
+ corrdisc([n;j],[-m;k])
+ %%
+    %% Problema 5
+% Realice la la convolución de las señales (c) con (d) del problema 3.1.1 utilizando el comando conv de MATLAB, muestre el código utilizado y gráfique el resultado, sugerencia: Utilice las propiedades de traslación de la convolución.
+%%
+% 
+   c=[-9 -6 -3 0 3 6 9];
+   d=[4 2 0 2 4];
+   n=conv(c,d);
+   u=[-5 -4 -3 -2 -1 0 1 2 3 4 5];   
+   stem(u,n)
+%% Referencias
+%
+% Dr. Rafael Martinez Martinez. (2016). Se ?nales y Sistemas. 2018, de creativecommons.orgSitio web: http://rafneta.github.io/
+##### SOURCE END #####
+--></body></html>
